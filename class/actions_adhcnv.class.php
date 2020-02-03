@@ -258,10 +258,7 @@ class Actionsadhcnv
 			$result = $adh->fetch($adhId);
 			if ($result < 0) {
 				setEventMessage($adh->error);
-				$error++;
-			}
-
-			if ($adh->fk_adherent_type == 1) {
+			} elseif ($adh->typeid == 1) {
 				$concatpdffile = 'tmpadhcnv' . (empty($adhId) ? '' : '_' . $adhId);
 				$file = $conf->adhcnv->dir_temp . '/' . $concatpdffile . '.pdf';
 				dol_mkdir($conf->adhcnv->dir_temp);
