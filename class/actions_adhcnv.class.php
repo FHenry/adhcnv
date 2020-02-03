@@ -253,25 +253,6 @@ class Actionsadhcnv
 			}
 		}
 		if (!empty($adhId)) {
-			$concatpdffile = 'tmpadhcnv' . (empty($adhId) ? '' : '_' . $adhId);
-			$file = $conf->adhcnv->dir_temp . '/' . $concatpdffile . '.pdf';
-			dol_mkdir($conf->adhcnv->dir_temp);
-
-			// New page
-			$pdf->AddPage();
-
-			$html1stPage = str_replace('$MYSOC_NOM$', $mysoc->name, $html1stPage);
-			$html1stPage = str_replace('$MYSOC_ADRESSE$', $mysoc->address, $html1stPage);
-			$html1stPage = str_replace('$MYSOC_CP$', $mysoc->zip, $html1stPage);
-			$html1stPage = str_replace('$MYSOC_VILLE$', $mysoc->town, $html1stPage);
-			$html1stPage = str_replace('$MYSOC_OBJECT$', $mysoc->object, $html1stPage);
-			$html1stPage = str_replace('$IMG_CERFA1$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/logo_cerfa.png'), $html1stPage);
-			$html1stPage = str_replace('$IMG_CHBK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx.png'), $html1stPage);
-			$html1stPage = str_replace('$IMG_CHBK_CHK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx_chk.png'), $html1stPage);
-
-			$pdf->writeHTMLCell($page_largeur - $marge_gauche - $marge_droite, $page_hauteur - $marge_haute - $marge_basse, $marge_gauche, $marge_haute, $html1stPage);
-
-			$pdf->AddPage();
 
 			$adh = new Adherent($this->db);
 			$result = $adh->fetch($adhId);
@@ -280,57 +261,80 @@ class Actionsadhcnv
 				$error++;
 			}
 
-			$html2ndPage = str_replace('$NOM$', $adh->lastname, $html2ndPage);
-			$html2ndPage = str_replace('$PRENOM$', $adh->firstname, $html2ndPage);
-			$html2ndPage = str_replace('$ADRESSE$', $adh->address, $html2ndPage);
-			$html2ndPage = str_replace('$CP$', $adh->zip, $html2ndPage);
-			$html2ndPage = str_replace('$VILLE$', $adh->town, $html2ndPage);
-			$html2ndPage = str_replace('$MONTANT$', price($adh->last_subscription_amount), $html2ndPage);
-			$html2ndPage = str_replace('$MONTANTLETTRE$', $this->amountToLetters($adh->last_subscription_amount), $html2ndPage);
-			$html2ndPage = str_replace('$DATEREGLEMENT$', dol_print_date($adh->last_subscription_date), $html2ndPage);
-			$html2ndPage = str_replace('$IMG_CERFA_SIGN$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/cie_mini.png'), $html2ndPage);
-			$html2ndPage = str_replace('$IMG_CHBK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx.png'), $html2ndPage);
-			$html2ndPage = str_replace('$IMG_CHBK_CHK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx_chk.png'), $html2ndPage);
-//print $html2ndPage;
-//exit;
-			$pdf->writeHTMLCell($page_largeur - $marge_gauche - $marge_droite, $page_hauteur - $marge_haute - $marge_basse, $marge_gauche, $marge_haute, $html2ndPage);
+			if ($adh->fk_adherent_type == 1) {
+				$concatpdffile = 'tmpadhcnv' . (empty($adhId) ? '' : '_' . $adhId);
+				$file = $conf->adhcnv->dir_temp . '/' . $concatpdffile . '.pdf';
+				dol_mkdir($conf->adhcnv->dir_temp);
 
-			$pdf->Close();
+				// New page
+				$pdf->AddPage();
 
-			$pdf->Output($file, 'F');
+				$html1stPage = str_replace('$MYSOC_NOM$', $mysoc->name, $html1stPage);
+				$html1stPage = str_replace('$MYSOC_ADRESSE$', $mysoc->address, $html1stPage);
+				$html1stPage = str_replace('$MYSOC_CP$', $mysoc->zip, $html1stPage);
+				$html1stPage = str_replace('$MYSOC_VILLE$', $mysoc->town, $html1stPage);
+				$html1stPage = str_replace('$MYSOC_OBJECT$', $mysoc->object, $html1stPage);
+				$html1stPage = str_replace('$IMG_CERFA1$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/logo_cerfa.png'), $html1stPage);
+				$html1stPage = str_replace('$IMG_CHBK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx.png'), $html1stPage);
+				$html1stPage = str_replace('$IMG_CHBK_CHK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx_chk.png'), $html1stPage);
 
-			unset($pdf);
-			// Annexe file was generated
+				$pdf->writeHTMLCell($page_largeur - $marge_gauche - $marge_droite, $page_hauteur - $marge_haute - $marge_basse, $marge_gauche, $marge_haute, $html1stPage);
 
-			$filetoconcat1 = array($parameters['file']);
-			$filetoconcat2 = array($file);
-			dol_syslog(get_class($this) . '::afterPDFCreation ' . $filetoconcat1 . ' - ' . $filetoconcat2);
+				$pdf->AddPage();
 
-			$filetoconcat = array_merge($filetoconcat1, $filetoconcat2);
 
-			// Create empty PDF
-			$pdf = pdf_getInstance($format);
-			if (class_exists('TCPDF')) {
-				$pdf->setPrintHeader(false);
-				$pdf->setPrintFooter(false);
-			}
-			$pdf->SetFont(pdf_getPDFFont($outputlangs));
+				$html2ndPage = str_replace('$NOM$', $adh->lastname, $html2ndPage);
+				$html2ndPage = str_replace('$PRENOM$', $adh->firstname, $html2ndPage);
+				$html2ndPage = str_replace('$ADRESSE$', $adh->address, $html2ndPage);
+				$html2ndPage = str_replace('$CP$', $adh->zip, $html2ndPage);
+				$html2ndPage = str_replace('$VILLE$', $adh->town, $html2ndPage);
+				$html2ndPage = str_replace('$MONTANT$', price($adh->last_subscription_amount), $html2ndPage);
+				$html2ndPage = str_replace('$MONTANTLETTRE$', $this->amountToLetters($adh->last_subscription_amount), $html2ndPage);
+				$html2ndPage = str_replace('$DATEREGLEMENT$', dol_print_date($adh->last_subscription_date), $html2ndPage);
+				$html2ndPage = str_replace('$IMG_CERFA_SIGN$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/cie_mini.png'), $html2ndPage);
+				$html2ndPage = str_replace('$IMG_CHBK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx.png'), $html2ndPage);
+				$html2ndPage = str_replace('$IMG_CHBK_CHK$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/chkbx_chk.png'), $html2ndPage);
+				//print $html2ndPage;
+				//exit;
+				$pdf->writeHTMLCell($page_largeur - $marge_gauche - $marge_droite, $page_hauteur - $marge_haute - $marge_basse, $marge_gauche, $marge_haute, $html2ndPage);
 
-			if ($conf->global->MAIN_DISABLE_PDF_COMPRESSION)
-				$pdf->SetCompression(false);
-			//$pdf->SetCompression(false);
+				$pdf->Close();
 
-			$pagecount = $this->concat($pdf, $filetoconcat);
+				$pdf->Output($file, 'F');
 
-			if ($pagecount) {
-				$pdf->Output($filetoconcat1[0], 'F');
-				if (!empty($conf->global->MAIN_UMASK)) {
-					@chmod($file, octdec($conf->global->MAIN_UMASK));
+				unset($pdf);
+				// Annexe file was generated
+
+				$filetoconcat1 = array($parameters['file']);
+				$filetoconcat2 = array($file);
+				dol_syslog(get_class($this) . '::afterPDFCreation ' . $filetoconcat1 . ' - ' . $filetoconcat2);
+
+				$filetoconcat = array_merge($filetoconcat1, $filetoconcat2);
+
+				// Create empty PDF
+				$pdf = pdf_getInstance($format);
+				if (class_exists('TCPDF')) {
+					$pdf->setPrintHeader(false);
+					$pdf->setPrintFooter(false);
 				}
-				if (!empty($deltemp)) {
-					// Delete temp files
-					foreach ($deltemp as $dirtemp) {
-						dol_delete_dir_recursive($dirtemp);
+				$pdf->SetFont(pdf_getPDFFont($outputlangs));
+
+				if ($conf->global->MAIN_DISABLE_PDF_COMPRESSION)
+					$pdf->SetCompression(false);
+				//$pdf->SetCompression(false);
+
+				$pagecount = $this->concat($pdf, $filetoconcat);
+
+				if ($pagecount) {
+					$pdf->Output($filetoconcat1[0], 'F');
+					if (!empty($conf->global->MAIN_UMASK)) {
+						@chmod($file, octdec($conf->global->MAIN_UMASK));
+					}
+					if (!empty($deltemp)) {
+						// Delete temp files
+						foreach ($deltemp as $dirtemp) {
+							dol_delete_dir_recursive($dirtemp);
+						}
 					}
 				}
 			}
