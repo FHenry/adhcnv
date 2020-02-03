@@ -114,7 +114,7 @@ class modadhcnv extends DolibarrModules
         );
         // Data directories to create when module is enabled.
         // Example: this->dirs = array("/mymodule/temp","/mymodule/subdir");
-        //$this->dirs = array("/mymodule/temp");
+        //$this->dirs = array("/adhcnv/temp");
         // Config pages. Put here list of php page, stored into mymodule/admin directory, to use to setup module.
         //$this->config_page_url = array("setup.php@mymodule");
         // Dependencies
@@ -138,9 +138,7 @@ class modadhcnv extends DolibarrModules
         //                             2 => array('MYMODULE_MYNEWCONST2', 'chaine', 'myvalue', 'This is another constant to add', 0, 'current', 1)
         // );
         $this->const = array(
-
         );
-
 
         if (! isset($conf->adhcnv) || ! isset($conf->adhcnv->enabled)) {
             $conf->adhcnv=new stdClass();
@@ -150,31 +148,24 @@ class modadhcnv extends DolibarrModules
         // Array to add new pages in new tabs
         $this->tabs = array();
 
-
         // Dictionaries
         $this->dictionaries=array();
-
 
         // Boxes/Widgets
         // Add here list of php file(s) stored in mymodule/core/boxes that contains a class to show a widget.
         $this->boxes = array(
-
         );
 
         // Cronjobs (List of cron jobs entries to add when module is enabled)
         // unit_frequency must be 60 for minute, 3600 for hour, 86400 for day, 604800 for week
         $this->cronjobs = array(
-
         );
-
 
         // Permissions provided by this module
         $this->rights = array();
 
-
         // Main menu entries to add
         $this->menu = array();
-
 
     }
 
