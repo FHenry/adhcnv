@@ -279,7 +279,6 @@ class Actionsadhcnv
 
 				$pdf->AddPage();
 
-				$adh->last_subscription_amount=65;
 
 				$html2ndPage = str_replace('$NOM$', $adh->lastname, $html2ndPage);
 				$html2ndPage = str_replace('$PRENOM$', $adh->firstname, $html2ndPage);
@@ -288,7 +287,7 @@ class Actionsadhcnv
 				$html2ndPage = str_replace('$VILLE$', $adh->town, $html2ndPage);
 				$html2ndPage = str_replace('$MONTANT$', price($adh->last_subscription_amount), $html2ndPage);
 				$html2ndPage = str_replace('$MONTANTLETTRE$', $this->amountToLetters($adh->last_subscription_amount), $html2ndPage);
-				//$html2ndPage = str_replace('$DATEREGLEMENT$', dol_print_date($adh->last_subscription_date), $html2ndPage);
+				$html2ndPage = str_replace('$DATEREGLEMENT$', dol_print_date($adh->last_subscription_date), $html2ndPage);
 				$html2ndPage = str_replace('$DATEREGLEMENT$', '01/03/2019', $html2ndPage);
 
 				$html2ndPage = str_replace('$IMG_CERFA_SIGN$', dol_buildpath('/adhcnv/src/cerfa11580_fichiers/cie_mini.png'), $html2ndPage);
