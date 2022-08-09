@@ -112,7 +112,7 @@ class Actionsadhcnv
 				$cibles = array();
 
 				$mailing = new Mailing($db);
-				$mailing->titre = 'Communication CNV ' . dol_print_date(dol_now());
+				$mailing->title = 'Communication CNV ' . dol_print_date(dol_now());
 				$mailing->sujet = 'Communication CNV ' . dol_print_date(dol_now());
 				$mailing->statut = 0;
 				$mailing->email_from = $conf->global->MAIN_MAIL_SMTPS_ID;
@@ -124,7 +124,7 @@ class Actionsadhcnv
 				$mailing->body .= 'Ici mon texte<br />';
 				$mailing->body .= '<br />';
 				$mailing->body .= '<br />';
-				$mailing->body .= '__CHECK_READ__<br />';
+				$mailing->body .= '__CHECK_READ__ <i>à laisser si pour avoir un accusé de lecture dans dolibarr</i><br />';
 				$mailing->body .= 'Pour vous d&eacute;sinscrire : __UNSUBSCRIBE__';
 
 				$result = $mailing->create($user);
