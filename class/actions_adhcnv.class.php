@@ -124,7 +124,7 @@ class Actionsadhcnv
 				$mailing->body .= 'Ici mon texte<br />';
 				$mailing->body .= '<br />';
 				$mailing->body .= '<br />';
-				$mailing->body .= '__CHECK_READ__ <i>à laisser si pour avoir un accusé de lecture dans dolibarr</i><br />';
+				$mailing->body .= '__CHECK_READ__ <i>à laisser pour avoir un accusé de lecture dans dolibarr</i><br />';
 				$mailing->body .= 'Pour vous d&eacute;sinscrire : __UNSUBSCRIBE__';
 
 				$result = $mailing->create($user);
