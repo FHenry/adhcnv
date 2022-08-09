@@ -103,7 +103,6 @@ class Actionsadhcnv
 				require_once DOL_DOCUMENT_ROOT . '/comm/mailing/class/mailing.class.php';
 				require_once DOL_DOCUMENT_ROOT . '/core/modules/mailings/modules_mailings.php';
 				require_once DOL_DOCUMENT_ROOT . '/adherents/class/adherent.class.php';
-				dol_include_once('/adhcnv/core/modules/adhcnv/adhcnv.modules.php');
 
 				$adhIds = GETPOST('toselect', 'array');
 
@@ -169,7 +168,7 @@ class Actionsadhcnv
 					}
 				}
 				if (count($cibles) > 0) {
-					$mailingtarget = new mailing_adhcnv($db);
+					$mailingtarget = new MailingTargets($db);
 					$result = $mailingtarget->addTargetsToDatabase($mailing->id, $cibles);
 					if ($result < 0) {
 						setEventMessage($mailingtarget->error, 'errors');
