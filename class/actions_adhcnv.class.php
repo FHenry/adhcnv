@@ -113,7 +113,7 @@ class Actionsadhcnv
 				$mailing = new Mailing($db);
 				$mailing->title = 'Communication CNV ' . dol_print_date(dol_now());
 				$mailing->sujet = 'Communication CNV ' . dol_print_date(dol_now());
-				$mailing->statut = 0;
+				$mailing->status = 0;
 				$mailing->email_from = $conf->global->MAIN_MAIL_SMTPS_ID;
 				$mailing->email_errorsto = $conf->global->MAIN_MAIL_SMTPS_ID;
 				$mailing->email_replyto = $conf->global->MAIN_MAIL_SMTPS_ID;
@@ -157,9 +157,9 @@ class Actionsadhcnv
 									'firstname'   => $adh->firstname,
 									'other'       =>
 										($langs->transnoentities("Login") . '=' . $adh->login) . ';' .
-										($langs->transnoentities("UserTitle") . '=' . ($adh->civility_id ? $langs->transnoentities("Civility" . $adh->civility_id) : '')) . ';' .
+										($langs->transnoentities("UserTitle") . '=' . ($adh->civility_code ? $langs->transnoentities("Civility" . $adh->civility_code) : '')) . ';' .
 										($langs->transnoentities("DateEnd") . '=' . dol_print_date($this->db->jdate($adh->datefin), 'day')) . ';' .
-										($langs->transnoentities("Company") . '=' . $adh->societe),
+										($langs->transnoentities("Company") . '=' . $adh->company),
 									'source_url'  => '<a href="' . DOL_URL_ROOT . '/adherents/card.php?rowid=' . $adh->id . '">' . img_object('', "user") . '</a>',
 									'source_id'   => $adh->id,
 									'source_type' => 'member'
